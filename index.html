@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="th">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -91,6 +92,16 @@
       word-break: break-word;
     }
 
+    .btn-clear {
+      background-color: #dc3545;
+      color: white;
+    }
+
+    .btn-clear:hover {
+      background-color: #c82333;
+    }
+
+
     @media (max-width: 500px) {
       .container {
         padding: 20px;
@@ -99,6 +110,7 @@
     }
   </style>
 </head>
+
 <body>
 
   <div class="container">
@@ -113,6 +125,8 @@
 
       <button type="submit" class="btn-submit">คำนวณ</button>
       <button type="button" class="btn-copy" onclick="copyText()">คัดลอกข้อความ</button>
+      <button type="button" class="btn-clear" onclick="clearResult()">ล้างค่า</button>
+
     </form>
 
     <div id="result" class="result" style="display: none;"></div>
@@ -173,7 +187,14 @@
           alert("ไม่สามารถคัดลอกข้อความได้ ❌");
         });
     }
+
+    function clearResult() {
+      resultDiv.innerText = "";
+      resultDiv.style.display = "none";
+    }
+
   </script>
 
 </body>
+
 </html>
