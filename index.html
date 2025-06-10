@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>คำนวณเปอร์เซ็นต์</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Prompt&display=swap');
+
+    * {
+      box-sizing: border-box;
+      font-family: 'Prompt', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #e0f7fa, #fff3e0);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      background: white;
+      padding: 30px 40px;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+      width: 100%;
+      max-width: 450px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #007bff;
+      margin-bottom: 25px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-right: 10px;
+    }
+
+    .btn-submit {
+      background-color: #28a745;
+      color: white;
+    }
+
+    .btn-submit:hover {
+      background-color: #218838;
+    }
+
+    .btn-copy {
+      background-color: #ffc107;
+      color: black;
+    }
+
+    .btn-copy:hover {
+      background-color: #e0a800;
+    }
+
+    .result {
+      margin-top: 20px;
+      background-color: #f1fdf3;
+      padding: 15px;
+      border-left: 5px solid #28a745;
+      border-radius: 10px;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    @media (max-width: 500px) {
+      .container {
+        padding: 20px;
+        margin: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>💡 คำนวณยอดมัดจำ</h2>
+
+    <form id="calcForm">
+      <label for="total">ยอดบิลสั่งซื้อ (บาท):</label>
+      <input type="number" id="total" placeholder="เช่น 2260.00" required>
+
+      <label for="percent">เปอร์เซ็นต์ที่ต้องการ:</label>
+      <input type="number" id="percent" placeholder="เช่น 30" required>
+
+      <button type="submit" class="btn-submit">คำนวณ</button>
+      <button type="button" class="btn-copy" onclick="copyText()">คัดลอกข้อความ</button>
+    </form>
+
+    <div id="result" class="result" style="display: none;"></div>
+  </div>
+
+  <script>
+    const form = document.getElementById("calcForm");
+    const totalInput = document.getElementById("total");
+    const percentInput = document.getElementById("percent");
+    const resultDiv = document.getElementById("result");
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      calculate();
+    });
+
+    function formatNumber(num) {
+      return Number(num).toLocaleString('th-TH', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      });
+    }
+
+    function calculate() {
+      const total = parseFloat(totalInput.value);
+      const percent = parseFloat(percentInput.value);
+
+      if (isNaN(total) || isNaN(percent)) {
+        alert("กรุณากรอกยอดบิลและเปอร์เซ็นต์ให้ถูกต้อง");
+        return;
+      }
+
+      const deposit = (total * percent) / 100;
+      const link = "https://img2.pic.in.th/pic/1635133851690.jpg";
+
+      const resultText = `ผมขอยอดมัดจำบิลสินค้า ${percent}% ของยอดบิลสั่งซื้อ ${formatNumber(total)} คือ: \`${formatNumber(deposit)}\` บาท หรือยอดเต็มบิล คือ : \`${formatNumber(total)}\` บาทครับ ลิงก์ดูเลขที่บัญชี: ${link}`;
+
+      resultDiv.innerText = resultText;
+      resultDiv.style.display = "block";
+
+      // ล้างค่าช่อง input
+      totalInput.value = "";
+      percentInput.value = "";
+      totalInput.focus();
+    }
+
+    function copyText() {
+      if (resultDiv.style.display === "none" || resultDiv.textContent.trim() === "") {
+        alert("ยังไม่มีข้อความให้คัดลอก กรุณาคำนวณก่อน");
+        return;
+      }
+
+      navigator.clipboard.writeText(resultDiv.textContent)
+        .then(() => {
+          alert("คัดลอกข้อความเรียบร้อยแล้ว ✅");
+        })
+        .catch(() => {
+          alert("ไม่สามารถคัดลอกข้อความได้ ❌");
+        });
+    }
+  </script>
+
+</body>
+</html>
